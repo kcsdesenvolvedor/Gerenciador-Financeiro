@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Gerenciador_Financeiro.Infra</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gerenciador-Financeiro.Domains\Gerenciador-Financeiro.Domains.csproj" />
+  </ItemGroup>
+
+</Project>

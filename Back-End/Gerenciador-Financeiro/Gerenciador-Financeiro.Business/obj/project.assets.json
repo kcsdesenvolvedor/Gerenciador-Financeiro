@@ -1,0 +1,117 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Gerenciador-Financeiro.Domains/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Gerenciador-Financeiro.Domains.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Gerenciador-Financeiro.Domains.dll": {}
+        }
+      },
+      "Gerenciador-Financeiro.Infra/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Gerenciador-Financeiro.Domains": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Gerenciador-Financeiro.Infra.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Gerenciador-Financeiro.Infra.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Gerenciador-Financeiro.Domains/1.0.0": {
+      "type": "project",
+      "path": "../Gerenciador-Financeiro.Domains/Gerenciador-Financeiro.Domains.csproj",
+      "msbuildProject": "../Gerenciador-Financeiro.Domains/Gerenciador-Financeiro.Domains.csproj"
+    },
+    "Gerenciador-Financeiro.Infra/1.0.0": {
+      "type": "project",
+      "path": "../Gerenciador-Financeiro.Infra/Gerenciador-Financeiro.Infra.csproj",
+      "msbuildProject": "../Gerenciador-Financeiro.Infra/Gerenciador-Financeiro.Infra.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "Gerenciador-Financeiro.Domains >= 1.0.0",
+      "Gerenciador-Financeiro.Infra >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\kellt\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Business\\Gerenciador-Financeiro.Business.csproj",
+      "projectName": "Gerenciador-Financeiro.Business",
+      "projectPath": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Business\\Gerenciador-Financeiro.Business.csproj",
+      "packagesPath": "C:\\Users\\kellt\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Business\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\kellt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "projectReferences": {
+            "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Domains\\Gerenciador-Financeiro.Domains.csproj": {
+              "projectPath": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Domains\\Gerenciador-Financeiro.Domains.csproj"
+            },
+            "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Infra\\Gerenciador-Financeiro.Infra.csproj": {
+              "projectPath": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.Infra\\Gerenciador-Financeiro.Infra.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

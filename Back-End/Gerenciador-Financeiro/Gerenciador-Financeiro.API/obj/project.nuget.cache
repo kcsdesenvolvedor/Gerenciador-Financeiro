@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "QWPygberruxUA4G/P9XM98BctUMQvsAqV3QHoxBl2fHdNBpuGzp5c/cZRcQdXtlB0K4sgO4nNL/Wt6vfvNp5yQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kellt\\Documents\\Projetos\\Gerenciador-Financeiro\\Back-End\\Gerenciador-Financeiro\\Gerenciador-Financeiro.API\\Gerenciador-Financeiro.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kellt\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512"
+  ],
+  "logs": []
+}
