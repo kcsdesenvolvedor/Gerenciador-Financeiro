@@ -1,3 +1,5 @@
+using FireSharp.Interfaces;
+using Gerenciador_Financeiro.Infra;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,15 @@ namespace Gerenciador_Financeiro.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            TestingConnection();
+        }
+
+        public void TestingConnection()
+        {
+            var connection = new DbContext();
+            if (connection.TestingConnectionDb() != null)
+                Console.WriteLine("Conectado com sucesso!");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
