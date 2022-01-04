@@ -13,6 +13,8 @@ namespace Gerenciador_Financeiro.API
     {
         public static void Main(string[] args)
         {
+            string path = AppDomain.CurrentDomain.BaseDirectory+"gerenciador-financeiro.json";
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -1,5 +1,16 @@
+using FireSharp;
 using FireSharp.Interfaces;
+using Gerenciador_Financeiro.Business.Services.Service;
+using Gerenciador_Financeiro.Domains.Domains.Revenue.Repository;
+using Gerenciador_Financeiro.Domains.Domains.Revenue.Service;
+using Gerenciador_Financeiro.Domains.Domains.Spending.Repository;
+using Gerenciador_Financeiro.Domains.Domains.Spending.Service;
+using Gerenciador_Financeiro.Domains.Domains.User;
+using Gerenciador_Financeiro.Domains.Domains.User.Repository;
+using Gerenciador_Financeiro.Domains.Domains.User.Service;
 using Gerenciador_Financeiro.Infra;
+using Gerenciador_Financeiro.Infra.Repositories;
+using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +28,7 @@ namespace Gerenciador_Financeiro.API
 {
     public class Startup
     {
+        private FirestoreDb _dbContext = DbContext.TestingConnectionDb();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,16 +39,24 @@ namespace Gerenciador_Financeiro.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
-            TestingConnection();
+            RegisterInterfaces(services);
         }
 
-        public void TestingConnection()
+        private void RegisterInterfaces(IServiceCollection services)
         {
-            var connection = new DbContext();
-            if (connection.TestingConnectionDb() != null)
-                Console.WriteLine("Conectado com sucesso!");
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISpendingService, SpendingService>();
+            services.AddTransient<ISpendingRepository, SpendingRepository>();
+            services.AddTransient<IRevenueService, RevenueService>();
+            services.AddTransient<IRevenueRepository, RevenueRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +70,11 @@ namespace Gerenciador_Financeiro.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
             app.UseAuthorization();
 
