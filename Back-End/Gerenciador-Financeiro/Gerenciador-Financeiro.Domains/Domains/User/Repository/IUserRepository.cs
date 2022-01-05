@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.Domains.Domains.User.Repository
 {
@@ -8,8 +9,8 @@ namespace Gerenciador_Financeiro.Domains.Domains.User.Repository
     {
         void Save(User user);
         void Update(User user);
-        void Delete(User user);
-        List<User> GetUsers();
+        void Delete(Guid id);
+        Task<List<User>> GetUsers();
         User GetById(int id);
         User GetByName(string name);
     }

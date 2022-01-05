@@ -4,6 +4,7 @@ using FireSharp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Google.Cloud.Firestore;
 
 namespace Gerenciador_Financeiro.Infra
 {
@@ -13,17 +14,12 @@ namespace Gerenciador_Financeiro.Infra
         {
         }
 
-        public FirebaseClient TestingConnectionDb()
+        public static FirestoreDb OpenConnectionDb()
         {
-            IFirebaseConfig config = new FirebaseConfig
-            {
-                AuthSecret = "gzEqoaqMK0UhVTCIHK8qL3hhfSZvMRFeQw0ATnq7",
-                BasePath = "https://gerenciador-financeiro-d0bd6-default-rtdb.firebaseio.com/"
-            };
+            FirestoreDb db = FirestoreDb.Create("gerenciador-financeiro-d0bd6");
 
-            var client = new FirebaseClient(config);
 
-            return client;
+            return db;
         }
     }
 }

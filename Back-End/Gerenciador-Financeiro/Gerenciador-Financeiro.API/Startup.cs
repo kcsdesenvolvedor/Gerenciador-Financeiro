@@ -1,10 +1,10 @@
 using FireSharp;
 using FireSharp.Interfaces;
 using Gerenciador_Financeiro.Business.Services.Service;
+using Gerenciador_Financeiro.Domains.Domains.Expense.Repository;
+using Gerenciador_Financeiro.Domains.Domains.Expense.Service;
 using Gerenciador_Financeiro.Domains.Domains.Revenue.Repository;
 using Gerenciador_Financeiro.Domains.Domains.Revenue.Service;
-using Gerenciador_Financeiro.Domains.Domains.Spending.Repository;
-using Gerenciador_Financeiro.Domains.Domains.Spending.Service;
 using Gerenciador_Financeiro.Domains.Domains.User;
 using Gerenciador_Financeiro.Domains.Domains.User.Repository;
 using Gerenciador_Financeiro.Domains.Domains.User.Service;
@@ -28,7 +28,6 @@ namespace Gerenciador_Financeiro.API
 {
     public class Startup
     {
-        private FirestoreDb _dbContext = DbContext.TestingConnectionDb();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,8 +52,8 @@ namespace Gerenciador_Financeiro.API
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<ISpendingService, SpendingService>();
-            services.AddTransient<ISpendingRepository, SpendingRepository>();
+            services.AddTransient<IExpenseService, ExpenseService>();
+            services.AddTransient<IExpenseRepository, ExpenseRepository>();
             services.AddTransient<IRevenueService, RevenueService>();
             services.AddTransient<IRevenueRepository, RevenueRepository>();
         }

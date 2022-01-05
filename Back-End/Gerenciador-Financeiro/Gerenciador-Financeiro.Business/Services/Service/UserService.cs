@@ -4,6 +4,7 @@ using Gerenciador_Financeiro.Domains.Domains.User.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.Business.Services.Service
 {
@@ -14,9 +15,9 @@ namespace Gerenciador_Financeiro.Business.Services.Service
         {
             _repository = repository;
         }
-        public void Delete(User user)
+        public void Delete(Guid id)
         {
-            _repository.Delete(user);
+            _repository.Delete(id);
         }
 
         public User GetById(int id)
@@ -29,9 +30,9 @@ namespace Gerenciador_Financeiro.Business.Services.Service
             return _repository.GetByName(name);
         }
 
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
-            return _repository.GetUsers();
+            return await _repository.GetUsers();
         }
 
         public void Save(User user)
