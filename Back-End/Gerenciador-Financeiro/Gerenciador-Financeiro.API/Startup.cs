@@ -1,6 +1,8 @@
 using FireSharp;
 using FireSharp.Interfaces;
 using Gerenciador_Financeiro.Business.Services.Service;
+using Gerenciador_Financeiro.Domains.Domains.Demostrative.Repository;
+using Gerenciador_Financeiro.Domains.Domains.Demostrative.Service;
 using Gerenciador_Financeiro.Domains.Domains.Expense.Repository;
 using Gerenciador_Financeiro.Domains.Domains.Expense.Service;
 using Gerenciador_Financeiro.Domains.Domains.Revenue.Repository;
@@ -56,6 +58,8 @@ namespace Gerenciador_Financeiro.API
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
             services.AddTransient<IRevenueService, RevenueService>();
             services.AddTransient<IRevenueRepository, RevenueRepository>();
+            services.AddTransient<IDemonstrativeService, DemonstrativeService>();
+            services.AddTransient<IDemonstrativeRepository, DemonstrativeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

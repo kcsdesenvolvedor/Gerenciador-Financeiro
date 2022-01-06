@@ -1,14 +1,20 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Gerenciador_Financeiro.Domains.Domains.Demostrative
 {
+    [FirestoreData]
     public class Demonstrative
     {
-        public string BalanceStatement { get; set; }
-        public DateTime Date { get; set; }
-        public int SpendingId { get; set; }
-        public int RevenueId { get; set; }
+        public Demonstrative()
+        {
+            Id = DateTime.Now.ToString("dd-MM-yyyy");
+        }
+        [FirestoreProperty]
+        public string Id { get; set; }
+        [FirestoreProperty]
+        public dynamic[] Operation { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Gerenciador_Financeiro.Domains.Domains.Demostrative.Service
 {
     public interface IDemonstrativeService
     {
-        void Save(Demonstrative demonstrative);
+        void Save(string demonstrativeId, double operationValue, double currentValue, string typeOperation);
         void Update(Demonstrative demonstrative);
         void Delete(Demonstrative demonstrative);
         List<Demonstrative> GetAllsDemonstrative();
