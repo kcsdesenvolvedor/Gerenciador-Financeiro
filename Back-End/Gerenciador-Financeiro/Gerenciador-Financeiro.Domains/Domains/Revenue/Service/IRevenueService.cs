@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.Domains.Domains.Revenue.Service
 {
@@ -8,8 +9,8 @@ namespace Gerenciador_Financeiro.Domains.Domains.Revenue.Service
     {
         void Save(Revenue revenue);
         void Update(Revenue revenue);
-        void Delete(Revenue revenue);
-        List<Revenue> GetAllsRevenue();
-        Revenue GetRevenueById(int id);
+        void Delete(string id);
+        Task<List<Revenue>> GetAllsRevenue();
+        Task<Revenue> GetRevenueById(string id);
     }
 }

@@ -11,7 +11,7 @@ namespace Gerenciador_Financeiro.Domains.Domains.Expense
         public Expense()
         {
             Id = Guid.NewGuid().ToString();
-            Date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            Date = DateTime.Now.Date.ToString("dd-MM-yyyy");
         }
         [FirestoreProperty]
         public string Id { get; set; }

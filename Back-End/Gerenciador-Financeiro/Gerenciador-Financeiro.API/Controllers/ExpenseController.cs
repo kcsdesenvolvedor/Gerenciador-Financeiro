@@ -64,7 +64,7 @@ namespace Gerenciador_Financeiro.API.Controllers
 
         [HttpDelete("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> DeleteExpense(Guid id)
+        public async Task<IActionResult> DeleteExpense(string id)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace Gerenciador_Financeiro.API.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetExpenseById(Guid id)
+        public async Task<IActionResult> GetExpenseById(string id)
         {
             try
             {

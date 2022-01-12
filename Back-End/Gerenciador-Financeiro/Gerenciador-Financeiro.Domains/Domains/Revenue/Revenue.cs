@@ -6,18 +6,24 @@ using System.Text;
 namespace Gerenciador_Financeiro.Domains.Domains.Revenue
 {
     [FirestoreData]
-    public class Revenue
+    public class Revenue // Receita
     {
         public Revenue()
         {
-            Id = DateTime.Now.Date.ToString("dd-MM-yyyy");
+            Id = Guid.NewGuid().ToString();
+            Date = DateTime.Now.Date.ToString("dd-MM-yyyy");
         }
         [FirestoreProperty]
         public string Id { get; set; }
-        [FirestoreProperty]
-        public double CurrentValue { get; set; }
-        [FirestoreProperty]
-        public double OldValue { get; set; }
+
+        [FirestoreProperty(Name ="Descrição")]
+        public string Description { get; set; }
+
+        [FirestoreProperty(Name ="Data")]
+        public string Date { get; set; }
+
+        [FirestoreProperty(Name ="Valor")]
+        public double RevenueValue { get; set; }
 
     }
 }

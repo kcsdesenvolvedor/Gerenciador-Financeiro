@@ -16,7 +16,7 @@ namespace Gerenciador_Financeiro.Business.Services.Service
         {
             _repository = repository;
         }
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             _repository.Delete(id);
         }
@@ -26,7 +26,7 @@ namespace Gerenciador_Financeiro.Business.Services.Service
             return _repository.GetAllsExpense();
         }
 
-        public Task<dynamic> GetExpenseById(Guid id)
+        public Task<dynamic> GetExpenseById(string id)
         {
             return _repository.GetExpenseById(id);
         }

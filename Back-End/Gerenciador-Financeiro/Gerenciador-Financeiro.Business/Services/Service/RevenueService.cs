@@ -4,6 +4,7 @@ using Gerenciador_Financeiro.Domains.Domains.Revenue.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.Business.Services.Service
 {
@@ -15,17 +16,17 @@ namespace Gerenciador_Financeiro.Business.Services.Service
         {
             _repository = repository;
         }
-        public void Delete(Revenue revenue)
+        public void Delete(string id)
         {
-            _repository.Delete(revenue);
+            _repository.Delete(id);
         }
 
-        public List<Revenue> GetAllsRevenue()
+        public Task<List<Revenue>> GetAllsRevenue()
         {
             return _repository.GetAllsRevenue();
         }
 
-        public Revenue GetRevenueById(int id)
+        public Task<Revenue> GetRevenueById(string id)
         {
             return _repository.GetRevenueById(id);
         }

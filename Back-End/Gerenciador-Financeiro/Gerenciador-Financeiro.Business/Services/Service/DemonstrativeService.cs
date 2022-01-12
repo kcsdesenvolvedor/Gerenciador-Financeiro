@@ -4,6 +4,7 @@ using Gerenciador_Financeiro.Domains.Domains.Demostrative.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.Business.Services.Service
 {
@@ -15,29 +16,29 @@ namespace Gerenciador_Financeiro.Business.Services.Service
         {
             _demonstrativeRepository = demonstrativeRepository;
         }
-        public void Delete(Demonstrative demonstrative)
+        public void Delete(string date, string operationId)
         {
-            _demonstrativeRepository.Delete(demonstrative);
+            _demonstrativeRepository.Delete(date, operationId);
         }
 
-        public List<Demonstrative> GetAllsDemonstrative()
+        public Task<List<Demonstrative>> GetAllsDemonstrative()
         {
             return _demonstrativeRepository.GetAllsDemonstrative();
         }
 
-        public Demonstrative GetDemonstrativeById(int id)
+        public Task<List<Demonstrative>> GetDemonstrativeByInterval(string interval1, string interval2)
         {
-            return _demonstrativeRepository.GetDemonstrativeById(id);
+            return _demonstrativeRepository.GetDemonstrativeByInterval(interval1, interval2);
         }
 
-        public void Save(string demonstrativeId, double operationValue, double currentValue, string typeOperation)
+        public void Save(string typeOperation, double operationValue, double value, string operationId)
         {
-            _demonstrativeRepository.Save(demonstrativeId, operationValue, currentValue, typeOperation);
+            _demonstrativeRepository.Save(typeOperation, operationValue, value, operationId);
         }
 
-        public void Update(Demonstrative demonstrative)
+        public void Update(double value, string date, string operationId)
         {
-            _demonstrativeRepository.Update(demonstrative);
+            _demonstrativeRepository.Update(value, date, operationId);
         }
     }
 }

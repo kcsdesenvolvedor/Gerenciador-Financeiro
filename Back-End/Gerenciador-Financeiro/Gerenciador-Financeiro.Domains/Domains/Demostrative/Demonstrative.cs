@@ -10,11 +10,11 @@ namespace Gerenciador_Financeiro.Domains.Domains.Demostrative
     {
         public Demonstrative()
         {
-            Id = DateTime.Now.ToString("dd-MM-yyyy");
         }
         [FirestoreProperty]
         public string Id { get; set; }
-        [FirestoreProperty]
+
+        [FirestoreProperty(Name ="Operação")]
         public dynamic[] Operation { get; set; }
     }
 }

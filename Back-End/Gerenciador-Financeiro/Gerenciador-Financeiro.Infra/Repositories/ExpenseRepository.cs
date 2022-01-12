@@ -1,4 +1,8 @@
 ﻿
+using Gerenciador_Financeiro.Domains.Domains.Balance;
+using Gerenciador_Financeiro.Domains.Domains.Balance.Service;
+using Gerenciador_Financeiro.Domains.Domains.Demostrative;
+using Gerenciador_Financeiro.Domains.Domains.Demostrative.Service;
 using Gerenciador_Financeiro.Domains.Domains.Expense;
 using Gerenciador_Financeiro.Domains.Domains.Expense.Repository;
 using Google.Cloud.Firestore;
@@ -13,17 +17,32 @@ namespace Gerenciador_Financeiro.Infra.Repositories
     public class ExpenseRepository : IExpenseRepository
     {
         private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
-        public async void Delete(Guid id)
+        private IDemonstrativeService _demonstrativeService;
+        private IBalanceService _balanceService;
+
+        public ExpenseRepository(IDemonstrativeService demonstrativeService, IBalanceService balanceService)
         {
-            DocumentReference docRef = _dbContext.Collection("Expense").Document(id.ToString());
-            await docRef.DeleteAsync();
+            _demonstrativeService = demonstrativeService;
+            _balanceService = balanceService;
+        }
+        public async void Delete(string id)
+        {
+            DocumentReference docRef = _dbContext.Collection("Despesa").Document(id);
+            DocumentSnapshot snap = await docRef.GetSnapshotAsync();
+            if(snap.Exists)
+            {
+                Expense expense = snap.ConvertTo<Expense>();
+
+                await docRef.DeleteAsync();
+                _balanceService.Delete("Debito", expense.Id, expense.Date, expense.Price);
+            }
         }
 
         public async Task<List<Expense>> GetAllsExpense()
         {
             List<Expense> expenseList = new List<Expense>();
 
-            Query query = _dbContext.Collection("Expense");
+            Query query = _dbContext.Collection("Despesa");
             QuerySnapshot snap = await query.GetSnapshotAsync();
 
             foreach (DocumentSnapshot item in snap)
@@ -35,15 +54,15 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             return expenseList;
         }
 
-        public async Task<dynamic> GetExpenseById(Guid id)
+        public async Task<dynamic> GetExpenseById(string id)
         {
             Expense expense = new Expense();
-            Query query = _dbContext.Collection("Expense");
+            Query query = _dbContext.Collection("Despesa");
             QuerySnapshot snap = await query.GetSnapshotAsync();
 
             foreach (DocumentSnapshot item in snap)
             {
-                if(item.Id == id.ToString())
+                if(item.Id == id)
                     expense = item.ConvertTo<Expense>();
             }
             if (expense.Name == null)
@@ -57,7 +76,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
         {
             List<Expense> expenseList = new List<Expense>();
 
-            Query query = _dbContext.Collection("Expense");
+            Query query = _dbContext.Collection("Despesa");
             QuerySnapshot snap = await query.GetSnapshotAsync();
 
             foreach (DocumentSnapshot item in snap)
@@ -72,7 +91,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 
         public async void Save(Expense expense)
         {
-            DocumentReference docRef = _dbContext.Collection("Expense").Document(expense.Id);
+            DocumentReference docRef = _dbContext.Collection("Despesa").Document(expense.Id);
             Dictionary<string, object> dic = new Dictionary<string, object>()
             {
                 { "Id", expense.Id},
@@ -92,11 +111,13 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             dic.Add("Tag", tag);
 
             await docRef.SetAsync(dic);
+            _balanceService.Save("Debito", expense.Price, expense.Id);
         }
 
-        public void Update(Expense expense)
+        public async void Update(Expense expense)
         {
-            DocumentReference docRef = _dbContext.Collection("Expense").Document(expense.Id);
+            Expense exp = await GetExpenseById(expense.Id);
+            DocumentReference docRef = _dbContext.Collection("Despesa").Document(expense.Id);
             Dictionary<string, object> dic = new Dictionary<string, object>()
             {
                 { "Name", expense.Name},
@@ -114,7 +135,8 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 
             dic.Add("Tag", tag);
 
-            docRef.UpdateAsync(dic);
+            await docRef.UpdateAsync(dic);
+            _balanceService.Update("Debito", expense.Price, exp.Price, exp.Date, expense.Id);
         }
     }
 }

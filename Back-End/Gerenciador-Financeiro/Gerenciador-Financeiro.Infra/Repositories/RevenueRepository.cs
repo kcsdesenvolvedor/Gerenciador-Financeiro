@@ -1,4 +1,6 @@
-﻿using Gerenciador_Financeiro.Domains.Domains.Demostrative;
+﻿using Gerenciador_Financeiro.Domains.Domains.Balance;
+using Gerenciador_Financeiro.Domains.Domains.Balance.Service;
+using Gerenciador_Financeiro.Domains.Domains.Demostrative;
 using Gerenciador_Financeiro.Domains.Domains.Demostrative.Service;
 using Gerenciador_Financeiro.Domains.Domains.Revenue;
 using Gerenciador_Financeiro.Domains.Domains.Revenue.Repository;
@@ -14,74 +16,45 @@ namespace Gerenciador_Financeiro.Infra.Repositories
     {
         private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
         private IDemonstrativeService _demonstrativeService;
+        private IBalanceService _balanceService;
 
-        public RevenueRepository(IDemonstrativeService demonstrativeService)
+        public RevenueRepository(IDemonstrativeService demonstrativeService, IBalanceService balanceService)
         {
             _demonstrativeService = demonstrativeService;
+            _balanceService = balanceService;
         }
-        public void Delete(Revenue revenue)
+        public async void Delete(string id)
         {
-            throw new NotImplementedException();
-        }
+            DocumentReference docRef = _dbContext.Collection("Receita").Document(id);
+            DocumentSnapshot snap = await docRef.GetSnapshotAsync();
 
-        public List<Revenue> GetAllsRevenue()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Revenue GetRevenueById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async void Save(Revenue revenue)
-        {
-            //dynamic oldRevenue = VerificationRevenueId(revenue.Id);
-            if(VerificationRevenueId(revenue.Id).Result != null)
+            if(snap.Exists)
             {
-                Revenue oldRevenue = VerificationRevenueId(revenue.Id).Result;
-                double valueOperation = revenue.CurrentValue;
-                revenue.OldValue = oldRevenue.CurrentValue;
-                revenue.CurrentValue = revenue.CurrentValue + oldRevenue.CurrentValue;
-                DocumentReference docRef = _dbContext.Collection("Revenue").Document(revenue.Id);
-                Dictionary<string, object> dic = new Dictionary<string, object>()
-                {
-                    { "Id", revenue.Id},
-                    { "CurrentValue", revenue.CurrentValue},
-                    { "OldValue", revenue.OldValue}
-                };
+                Revenue revenue = snap.ConvertTo<Revenue>();
 
-                Demonstrative demonstrative = new Demonstrative();
+                await docRef.DeleteAsync();
+                _balanceService.Delete("Credito", revenue.Id, revenue.Date, revenue.RevenueValue);
+            }
+        }
 
-                await docRef.SetAsync(dic);
-                _demonstrativeService.Save(demonstrative.Id, valueOperation, revenue.CurrentValue, "Credited");
-            }else
+        public async Task<List<Revenue>> GetAllsRevenue()
+        {
+            List<Revenue> listRevenue = new List<Revenue>();
+            Query query = _dbContext.Collection("Receita");
+            QuerySnapshot snap = await query.GetSnapshotAsync();
+
+            foreach (var item in snap)
             {
-                //adicionando saldo pela primeira vez no dia
-                DocumentReference docRef = _dbContext.Collection("Revenue").Document(revenue.Id);
-                Dictionary<string, object> dic = new Dictionary<string, object>()
-                    {
-                        { "Id", revenue.Id},
-                        { "CurrentValue", revenue.CurrentValue},
-                        { "OldValue", revenue.OldValue}
-                    };
-
-                Demonstrative demonstrative = new Demonstrative();
-
-                await docRef.SetAsync(dic);
-                _demonstrativeService.Save(demonstrative.Id, revenue.CurrentValue, revenue.CurrentValue, "Credited");
+                Revenue revenue = item.ConvertTo<Revenue>();
+                listRevenue.Add(revenue);
             }
 
+            return listRevenue;
         }
 
-        public void Update(Revenue revenue)
+        public async Task<Revenue> GetRevenueById(string id)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<dynamic> VerificationRevenueId(string id)
-        {
-            DocumentReference docRef = _dbContext.Collection("Revenue").Document(id);
+            DocumentReference docRef = _dbContext.Collection("Receita").Document(id);
             DocumentSnapshot snap = await docRef.GetSnapshotAsync();
 
             if(snap.Exists)
@@ -92,6 +65,39 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             {
                 return null;
             }
+        }
+
+        public async void Save(Revenue revenue)
+        {
+            DocumentReference docRef = _dbContext.Collection("Receita").Document(revenue.Id);
+            Dictionary<string, object> dic = new Dictionary<string, object>()
+            {
+                { "Id", revenue.Id},
+                { "Descrição", revenue.Description},
+                { "Data", revenue.Date},
+                { "Valor", revenue.RevenueValue}
+            };
+
+            await docRef.SetAsync(dic);
+            _balanceService.Save("Credito", revenue.RevenueValue, revenue.Id);
+
+        }
+
+        public async void Update(Revenue revenue)
+        {
+            Revenue rev = GetRevenueById(revenue.Id).Result;
+
+            DocumentReference docRef = _dbContext.Collection("Receita").Document(revenue.Id);
+            Dictionary<string, object> dic = new Dictionary<string, object>()
+            {
+                { "Id", revenue.Id},
+                { "Descrição", revenue.Description},
+                { "Data", rev.Date},
+                { "Valor", revenue.RevenueValue}
+            };
+
+            await docRef.UpdateAsync(dic);
+            _balanceService.Update("Credito", revenue.RevenueValue, rev.RevenueValue, revenue.Date, revenue.Id);
         }
     }
 }
