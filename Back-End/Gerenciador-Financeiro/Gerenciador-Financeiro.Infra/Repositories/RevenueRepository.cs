@@ -14,7 +14,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 {
     public class RevenueRepository : IRevenueRepository
     {
-        private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
+        private FirestoreDb _dbContext = DataBaseContext.OpenConnectionDb();
         private IDemonstrativeService _demonstrativeService;
         private IBalanceService _balanceService;
 
@@ -48,7 +48,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                 Revenue revenue = item.ConvertTo<Revenue>();
                 listRevenue.Add(revenue);
             }
-
+            listRevenue.Reverse();
             return listRevenue;
         }
 
@@ -79,7 +79,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             };
 
             await docRef.SetAsync(dic);
-            _balanceService.Save("Credito", revenue.RevenueValue, revenue.Id);
+            _balanceService.Save("Credito", revenue.RevenueValue, revenue.Id, revenue.Date);
 
         }
 

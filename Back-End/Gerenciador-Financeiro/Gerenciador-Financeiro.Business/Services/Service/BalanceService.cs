@@ -32,9 +32,9 @@ namespace Gerenciador_Financeiro.Business.Services.Service
             return _balanceRepository.GetCurrentBalance();
         }
 
-        public void Save(string typeOperation, double operationValue, string operationId)
+        public void Save(string typeOperation, double operationValue, string operationId, string date)
         {
-            _balanceRepository.Save(typeOperation, operationValue, operationId);
+            _balanceRepository.Save(typeOperation, operationValue, operationId, date);
         }
 
         public void Update(string typeOperation, double operationValue, double operationValueOld, string date, string operationId)

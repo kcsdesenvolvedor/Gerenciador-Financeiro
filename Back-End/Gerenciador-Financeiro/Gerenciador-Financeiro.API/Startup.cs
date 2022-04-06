@@ -1,5 +1,6 @@
 using FireSharp;
 using FireSharp.Interfaces;
+using FluentMigrator.Runner;
 using Gerenciador_Financeiro.Business.Services.Service;
 using Gerenciador_Financeiro.Domains.Domains.Balance.Repository;
 using Gerenciador_Financeiro.Domains.Domains.Balance.Service;
@@ -26,12 +27,14 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Gerenciador_Financeiro.API
 {
     public class Startup
     {
+        private string connection;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,6 +53,24 @@ namespace Gerenciador_Financeiro.API
 );
 
             RegisterInterfaces(services);
+            connection = Configuration["ConexaoSqlite:SqliteConnectionString"];
+            InjectionDb(services);
+        }
+
+        public void InjectionDb(IServiceCollection services)
+        {
+            services
+                .AddFluentMigratorCore()
+                .ConfigureRunner(rb => rb
+                    // Add SQLite support to FluentMigrator
+                    .AddSQLite()
+                    // Set the connection string
+                    .WithGlobalConnectionString(connection)
+                    // Define the assembly containing the migrations
+                    .ScanIn(Assembly.GetExecutingAssembly()).For.All())
+                // Enable logging to console in the FluentMigrator way
+                .AddLogging(lb => lb.AddFluentMigratorConsole());
+            // Build the service provider
         }
 
         private void RegisterInterfaces(IServiceCollection services)

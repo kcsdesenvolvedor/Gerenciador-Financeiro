@@ -33,6 +33,8 @@ namespace Gerenciador_Financeiro.API.Controllers
             }
         }
 
+        [HttpPut]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateExpense([FromBody] Expense expense)
         {
             try

@@ -9,7 +9,10 @@ FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 COPY ["Gerenciador-Financeiro.API/Gerenciador-Financeiro.API.csproj", "Gerenciador-Financeiro.API/"]
 RUN dotnet restore "Gerenciador-Financeiro.API/Gerenciador-Financeiro.API.csproj"
-COPY . .
+COPY *.csproj ./
+RUN dotnet restore
+
+COPY . ./
 WORKDIR "/src/Gerenciador-Financeiro.API"
 RUN dotnet build "Gerenciador-Financeiro.API.csproj" -c Release -o /app/build
 
@@ -19,4 +22,6 @@ RUN dotnet publish "Gerenciador-Financeiro.API.csproj" -c Release -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Gerenciador-Financeiro.API.dll"]
+CMD ASPNETCORE_URLS="http://*:$PORT" dotnet Gerenciador-Financeiro.API.dll
+#ENTRYPOINT ["dotnet", "Gerenciador-Financeiro.API.dll"]
+

@@ -1,0 +1,27 @@
+@import '../home/home.component.css';
+
+.divExpenseCreate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#btnCloser {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.divBtnCreate {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.titleCreate {
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: rgb(140, 0, 255);
+    color: #fff;
+}

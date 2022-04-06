@@ -31,9 +31,9 @@ namespace Gerenciador_Financeiro.Business.Services.Service
             return _demonstrativeRepository.GetDemonstrativeByInterval(interval1, interval2);
         }
 
-        public void Save(string typeOperation, double operationValue, double value, string operationId)
+        public void Save(string typeOperation, double operationValue, double value, string operationId, string date)
         {
-            _demonstrativeRepository.Save(typeOperation, operationValue, value, operationId);
+            _demonstrativeRepository.Save(typeOperation, operationValue, value, operationId, date);
         }
 
         public void Update(double value, string date, string operationId)

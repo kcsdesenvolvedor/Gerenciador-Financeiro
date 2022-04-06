@@ -11,7 +11,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 {
     public class BalanceRepository : IBalanceRepository
     {
-        private FirestoreDb _dbContex = DbContext.OpenConnectionDb();
+        private FirestoreDb _dbContex = DataBaseContext.OpenConnectionDb();
         private IDemonstrativeService _demonstrativeService;
 
         public BalanceRepository(IDemonstrativeService demonstrativeService)
@@ -23,7 +23,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public async void Save(string typeOperation, double operationValue, string operationId)
+        public async void Save(string typeOperation, double operationValue, string operationId, string date)
         {
             Balance balance = new Balance();
             Balance balanceExist = GetCurrentBalance().Result;
@@ -31,13 +31,13 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             {
                 var value = balanceExist.BalanceValue + operationValue;
                 AddBalance(typeOperation, balance.Id, value, balanceExist.BalanceValue);
-                _demonstrativeService.Save(typeOperation, operationValue, value, operationId);
+                _demonstrativeService.Save(typeOperation, operationValue, value, operationId, date);
             }
             else
             {
                 var value = balanceExist.BalanceValue - operationValue;
                 AddBalance(typeOperation, balance.Id, value, balanceExist.BalanceValue);
-                _demonstrativeService.Save(typeOperation, operationValue, value, operationId);
+                _demonstrativeService.Save(typeOperation, operationValue, value, operationId, date);
             }
             
         }

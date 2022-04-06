@@ -13,7 +13,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
+        private FirestoreDb _dbContext = DataBaseContext.OpenConnectionDb();
         public async void Delete(Guid id)
         {
             DocumentReference docRef = _dbContext.Collection("Users").Document(id.ToString());

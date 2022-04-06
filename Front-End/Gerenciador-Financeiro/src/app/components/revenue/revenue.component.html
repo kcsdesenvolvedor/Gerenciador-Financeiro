@@ -1,0 +1,16 @@
+
+<div class="content" role="main">
+  <pre><i-feather name="arrow-left-circle" (click)="voltar()"></i-feather></pre>
+    <h2>Entradas</h2>
+  <div class="terminal" *ngFor="let item of revenues">
+      <div class="terminalTitle" (click)="OnClick(item.id)">
+        <pre class="title">{{ item.type }}</pre>
+        <pre>{{ item.date }}</pre>
+      </div>
+      <pre>{{ item.name }}</pre>
+      <div class="terminalTrash">
+        <pre>R${{ item.price }}</pre>
+        <pre><i-feather name="trash" (click)="OnClick(item.id)"></i-feather></pre>
+      </div>
+  </div>
+  </div>

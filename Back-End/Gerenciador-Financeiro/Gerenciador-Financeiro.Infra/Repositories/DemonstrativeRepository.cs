@@ -4,6 +4,7 @@ using Google.Cloud.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 {
     public class DemonstrativeRepository : IDemonstrativeRepository
     {
-        private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
+        private FirestoreDb _dbContext = DataBaseContext.OpenConnectionDb();
 
         public async Task<List<Demonstrative>> GetAllsDemonstrative()
         {
@@ -25,7 +26,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                 demonstrative.Id = item.Id;
                 listDemonstrative.Add(demonstrative);
             }
-
+            listDemonstrative.Reverse();
             return listDemonstrative;
         }
 
@@ -44,14 +45,15 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                     listDemonstrative.Add(demonstrative);
                 }
             }
-
+            listDemonstrative.Reverse();
             return listDemonstrative;
         }
 
-        public async void Save(string typeOperation, double operationValue, double value, string operationId)
+        public async void Save(string typeOperation, double operationValue, double value, string operationId, string date)
         {
             Demonstrative demonstrative = new Demonstrative();
-            demonstrative.Id = DateTime.Now.ToString("dd-MM-yyyy");
+            //demonstrative.Id = DateTime.Now.ToString("dd-MM-yyyy");
+            demonstrative.Id = date;
             demonstrative = VerificationDemonstrativeId(demonstrative.Id).Result;
             DocumentReference docRef = _dbContext.Collection("Extrato").Document(demonstrative.Id);
             Dictionary<string, object> data = new Dictionary<string, object>();
@@ -71,10 +73,9 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                     arrayList.Add(item);
                 }
             }
-            arrayList.Add(dicList);
+            arrayList.Insert(0, dicList);
 
             data.Add("Operação", arrayList);
-
             await docRef.SetAsync(data);
 
         }
@@ -157,6 +158,10 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                             newBalance = myArray[$"Valor do {myArray["Operação"]}"];
                             typeOperation = myArray["Operação"];
                             operationFound = true;
+
+                            List<object> list = demonstrative.Operation.ToList();
+                            list.Remove(myArray);
+                            demonstrative.Operation = list.ToArray();
                         }else
                         {
                             if(!operationFound)
@@ -192,10 +197,12 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             if(snap.Exists)
             {
                 Demonstrative demonstrative = snap.ConvertTo<Demonstrative>();
+                demonstrative.Id = id;
                 return demonstrative;
             }else
             {
-                Demonstrative demonstrative = new Demonstrative(); 
+                Demonstrative demonstrative = new Demonstrative();
+                demonstrative.Id = id;
                 return demonstrative;
             }
 

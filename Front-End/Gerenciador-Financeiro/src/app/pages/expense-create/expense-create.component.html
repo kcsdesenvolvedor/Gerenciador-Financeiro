@@ -1,0 +1,63 @@
+<mat-card class="mat-elevation-z8">
+    <form (ngSubmit)="createExpense()">
+        <div [formGroup]="expenseForm" class="divExpenseCreate">
+            <mat-card class="titleCreate mat-elevation-z4">
+                <h1>Nova Saida</h1>
+            </mat-card>
+            <mat-form-field>
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" formControlName="name">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Data</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" #date (dateChange)="formatDate(date)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            <mat-form-field>
+                <mat-label>Preço</mat-label>
+                <input matInput type="text" formControlName="price" currencyMask>
+            </mat-form-field>
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>quem fez essa compra?</mat-label>
+                <mat-chip-list #chipList aria-label="Fruit selection">
+                  <mat-chip
+                    *ngFor="let tag of tags"
+                    (removed)="remove(tag)">
+                    {{tag}}
+                    <button matChipRemove id="btnCloser">
+                        <i-feather name="X"></i-feather>
+                    </button>
+                  </mat-chip>
+                  <input
+                    placeholder="nova tag..."
+                    #fruitInput
+                    [formControl]="fruitCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)" formControlName="tag">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                    {{fruit}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            <mat-form-field>
+                <mat-label>Anotação</mat-label>
+                <textarea matInput formControlName="annotation"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="divBtnCreate">
+            <button type="submit" mat-raised-button color="primary">
+                Adicionar
+            </button>
+    
+            <button mat-raised-button (click)="cancel()" color="danger">
+                Cancelar
+            </button>
+        </div>
+    </form>
+</mat-card>

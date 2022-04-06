@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Google.Cloud.Firestore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gerenciador_Financeiro.Infra
 {
-    public class DbContext
+    public class DataBaseContext : DbContext
     {
-        public DbContext()
+        public DataBaseContext()
         {
         }
 

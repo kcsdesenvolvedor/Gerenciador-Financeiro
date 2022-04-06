@@ -16,7 +16,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 {
     public class ExpenseRepository : IExpenseRepository
     {
-        private FirestoreDb _dbContext = DbContext.OpenConnectionDb();
+        private FirestoreDb _dbContext = DataBaseContext.OpenConnectionDb();
         private IDemonstrativeService _demonstrativeService;
         private IBalanceService _balanceService;
 
@@ -50,7 +50,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
                 Expense expense = item.ConvertTo<Expense>();
                 expenseList.Add(expense);
             }
-
+            expenseList.Reverse();
             return expenseList;
         }
 
@@ -91,6 +91,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
 
         public async void Save(Expense expense)
         {
+
             DocumentReference docRef = _dbContext.Collection("Despesa").Document(expense.Id);
             Dictionary<string, object> dic = new Dictionary<string, object>()
             {
@@ -111,7 +112,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             dic.Add("Tag", tag);
 
             await docRef.SetAsync(dic);
-            _balanceService.Save("Debito", expense.Price, expense.Id);
+            _balanceService.Save("Debito", expense.Price, expense.Id, expense.Date);
         }
 
         public async void Update(Expense expense)
@@ -121,7 +122,7 @@ namespace Gerenciador_Financeiro.Infra.Repositories
             Dictionary<string, object> dic = new Dictionary<string, object>()
             {
                 { "Name", expense.Name},
-                { "Date", expense.Date},
+                { "Date", exp.Date},
                 { "Price", expense.Price},
                 { "Image", expense.Image},
                 { "Annotation", expense.Annotation}

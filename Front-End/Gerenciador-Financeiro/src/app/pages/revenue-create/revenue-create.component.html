@@ -1,0 +1,33 @@
+<mat-card class="mat-elevation-z8">
+    <form (ngSubmit)="createRevenue()">
+        <div [formGroup]="revenueForm" class="divRevenueCreate">
+            <mat-card class="titleCreate mat-elevation-z4">
+                <h1>Nova Entrada</h1>
+            </mat-card>
+            <mat-form-field>
+                <mat-label>Descrição</mat-label>
+                <input matInput type="text" formControlName="description" placeholder="Ex: salário, pix, deposito...">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Data</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" #date (dateChange)="formatDate(date)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            <mat-form-field>
+                <mat-label>Valor</mat-label>
+                <input matInput type="text" formControlName="revenueValue" currencyMask>
+            </mat-form-field>
+        </div>
+
+        <div class="divBtnCreate">
+            <button type="submit" mat-raised-button color="primary">
+                Adicionar
+            </button>
+    
+            <button mat-raised-button (click)="cancel()" color="danger">
+                Cancelar
+            </button>
+        </div>
+    </form>
+</mat-card>

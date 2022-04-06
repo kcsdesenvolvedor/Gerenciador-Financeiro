@@ -1,0 +1,34 @@
+<!-- <mat-card class="mat-elevation-z8 cardDialog">
+    
+</mat-card> -->
+<div mat-dialog-content [formGroup]="dialogForm" class="cardDialog" *ngIf="element == 'default'">
+    <div class="dialogContent">
+        <h2 mat-dialog-title>{{data.type}}</h2>
+    <p>Deseja excluir essa Movimentação?</p>
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Data</mat-label>
+        <input matInput type="text" formControlName="date">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Valor</mat-label>
+        <input matInput type="text" formControlName="price">
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="onNoClick()">Voltar</button>
+        <button mat-raised-button color="primary" (click)="deletar()" cdkFocusInitial>Deletar</button>
+    </div>
+    </div>
+</div>
+<div *ngIf="element == 'create'" class="dialogCreate">
+    <div class="dialogCreateContent">
+        <h3>Tipo da Movimentação</h3>
+        <div>
+            <button id="btnCreateEntrada" mat-raised-button color="primary" routerLink="revenueCreate" (click)="onNoClick()" routerLinkActive="active">Entrada (+)</button>
+            <button id="btnCreateSaida" mat-raised-button color="warn" routerLink="expenseCreate" (click)="onNoClick()" routerLinkActive="active">Saida (-)</button>
+        </div>
+      </div>
+</div>

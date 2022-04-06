@@ -1,0 +1,55 @@
+@import '../home/home.component.css';
+
+.divExpensePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titleUpdate {
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: rgb(140, 0, 255);
+    color: #fff;
+}
+
+.divButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btnAtualizar {
+    margin-right: 10px;
+}
+
+#imageExpense {
+    max-width: 300px;
+    max-height: 300px;
+  }
+  
+  #image {
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+    margin-bottom: 10px;
+    width: 60%;
+    
+  }
+  
+  #formFileLg {
+    margin-top: 40px;
+  }
+
+  #btnCloser {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.divBtnCreate {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
